@@ -23,29 +23,28 @@ $(function() {
 
 	$('#binInput').on('keyup', function() {
 		var bin = $(this).val().replace(/[^01]/g,"");
-		var dec = parseInt(bin, 2);
+		var dec = parseInt(bin, 2) || 0;
 		$('#decInput').val(dec);
 		$('#hexInput').val(dec.toString(16).toUpperCase());
 		$('.1-count').html((bin.match(/1/g) || []).length);
 		updateBinRow(bin);
 	});
+
 	$('#decInput').on('keyup', function() {
-		var dec = parseInt($(this).val().replace(/[^0-9]/g,""), 10);
+		var dec = parseInt($(this).val().replace(/[^0-9]/g,""), 10) || 0;
 		var bin = dec.toString(2);
 		$('#binInput').val(bin);
 		$('.1-count').html((bin.match(/1/g) || []).length);
 		$('#hexInput').val(dec.toString(16).toUpperCase());
 		updateBinRow(bin);
-
 	});
+
 	$('#hexInput').on('keyup', function() {
-		var hex = $(this).val().replace(/[^a-f0-9]/gi,"");
-		var dec = parseInt(hex, 16);
+		var dec = parseInt($(this).val().replace(/[^a-f0-9]/gi,""), 16) || 0;
 		var bin = dec.toString(2);
 		$('#decInput').val(dec);
-		$('#binInput').val();
+		$('#binInput').val(bin);
 		$('.1-count').html((bin.match(/1/g) || []).length);
 		updateBinRow(bin);
-
 	});
 });
