@@ -1,0 +1,20 @@
+body {
+  padding-top: 60px;
+}
+.form-inline .form-group, .form-inline .form-group .input-group {
+    width: 100%;
+}
+.col-xs-1-8 {
+	position:relative;
+	min-height: 1px;
+	padding: 5px 0px;
+	float:left;
+	width:12.5%;
+}
+
+.btn-bit {
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+	text-align: center;
+}
