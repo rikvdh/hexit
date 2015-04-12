@@ -1,50 +1,82 @@
-$(function() {
-	function updateBinRow(str) {
-		for (i = 0; i < 63; i++) {
-			if (str.length) {
-				$('.bit-' + i).html(str.substring(str.length - 1));
-				str = str.slice(0, - 1);
-			} else {
-				$('.bit-' + i).html(0);
-			}
+if(typeof(Storage) === "undefined") {
+	alert("Hello Gramps! You're using a too old version for using the configuration-storage support.");
+}
+
+function updateBinRow(dec) {
+	var str = dec.toString(2);
+	for (i = 0; i <= 63; i++) {
+		if (str.length) {
+			$('.bit-' + i).html(str.substring(str.length - 1));
+			str = str.slice(0, - 1);
+		} else {
+			$('.bit-' + i).html(0);
 		}
 	}
+}
 
+function bitSelect(bits) {
 	$('.bit-64b > div').hide();
-	$('.bit-32b > div').show();
+	$('.bit-' + bits + ' > div').show();
+	$('ul.nav li.active').removeClass('active');
+	$('#' + bits).parent('li').addClass('active');
+	localStorage.bitSel = bits;
+}
 
+function hexSet(dec) {
+	$('#hexInput').val(dec.toString(16).toUpperCase());
+}
+
+function decSet(dec) {
+	$('#decInput').val(dec);
+}
+
+function binSet(dec) {
+	var bin = dec.toString(2);
+	$('#binInput').val(bin);
+	$('.1-count').html((bin.match(/1/g) || []).length);
+}
+
+$(function() {
+	if (!localStorage.bitSel) {
+		localStorage.bitSel = '32b';
+	}
+	bitSelect(localStorage.bitSel);
 	$('#64b, #32b, #16b, #8b').on('click', function(e) {
 		e.preventDefault();
-		$('.bit-64b > div').hide();
-		$('.bit-' + $(this).attr('id') + ' > div').show();
-		$('ul.nav li.active').removeClass('active');
-		$(this).parent('li').addClass('active');
+		bitSelect($(this).attr('id'));
 	});
+
+	if (localStorage.lastVal && parseInt(localStorage.lastVal, 10)) {
+		val = parseInt(localStorage.lastVal, 10)
+		decSet(val);
+		hexSet(val);
+		binSet(val);
+		updateBinRow(val);
+	}
 
 	$('#binInput').on('keyup', function() {
 		var bin = $(this).val().replace(/[^01]/g,"");
 		var dec = parseInt(bin, 2) || 0;
-		$('#decInput').val(dec);
-		$('#hexInput').val(dec.toString(16).toUpperCase());
 		$('.1-count').html((bin.match(/1/g) || []).length);
-		updateBinRow(bin);
+		localStorage.lastVal = dec;
+		hexSet(dec);
+		decSet(dec);
+		updateBinRow(dec);
 	});
 
 	$('#decInput').on('keyup', function() {
 		var dec = parseInt($(this).val().replace(/[^0-9]/g,""), 10) || 0;
-		var bin = dec.toString(2);
-		$('#binInput').val(bin);
-		$('.1-count').html((bin.match(/1/g) || []).length);
-		$('#hexInput').val(dec.toString(16).toUpperCase());
-		updateBinRow(bin);
+		localStorage.lastVal = dec;
+		hexSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
 	});
 
 	$('#hexInput').on('keyup', function() {
 		var dec = parseInt($(this).val().replace(/[^a-f0-9]/gi,""), 16) || 0;
-		var bin = dec.toString(2);
-		$('#decInput').val(dec);
-		$('#binInput').val(bin);
-		$('.1-count').html((bin.match(/1/g) || []).length);
-		updateBinRow(bin);
+		localStorage.lastVal = dec;
+		decSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
 	});
 });
