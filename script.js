@@ -32,7 +32,7 @@ function hexSet(dec) {
 }
 
 function octSet(dec) {
-	$('#hexInput').val(dec.toString(8).toUpperCase());
+	$('#octInput').val(dec.toString(8).toUpperCase());
 }
 
 function decSet(dec) {
