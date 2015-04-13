@@ -7,9 +7,14 @@ function updateBinRow(dec) {
 	for (i = 0; i <= 63; i++) {
 		if (str.length) {
 			$('.bit-' + i).html(str.substring(str.length - 1));
+			if (str.substring(str.length - 1) == 1)
+				$('.bit-' + i).addClass("btn-info");
+			else
+				$('.bit-' + i).removeClass("btn-info");
 			str = str.slice(0, - 1);
 		} else {
 			$('.bit-' + i).html(0);
+			$('.bit-' + i).removeClass("btn-info");
 		}
 	}
 }
