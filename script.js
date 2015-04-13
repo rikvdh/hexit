@@ -31,6 +31,10 @@ function hexSet(dec) {
 	$('#hexInput').val(dec.toString(16).toUpperCase());
 }
 
+function octSet(dec) {
+	$('#hexInput').val(dec.toString(8).toUpperCase());
+}
+
 function decSet(dec) {
 	$('#decInput').val(dec);
 }
@@ -53,8 +57,9 @@ $(function() {
 
 	if (localStorage.lastVal && parseInt(localStorage.lastVal, 10)) {
 		val = parseInt(localStorage.lastVal, 10)
-		decSet(val);
 		hexSet(val);
+		decSet(val);
+		octSet(val);
 		binSet(val);
 		updateBinRow(val);
 	}
@@ -66,6 +71,7 @@ $(function() {
 		localStorage.lastVal = dec;
 		hexSet(dec);
 		decSet(dec);
+		octSet(dec);
 		updateBinRow(dec);
 	});
 
@@ -73,6 +79,16 @@ $(function() {
 		var dec = parseInt($(this).val().replace(/[^0-9]/g,""), 10) || 0;
 		localStorage.lastVal = dec;
 		hexSet(dec);
+		octSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
+	});
+
+	$('#octInput').on('keyup', function() {
+		var dec = parseInt($(this).val().replace(/[^0-7]/g,""), 8) || 0;
+		localStorage.lastVal = dec;
+		hexSet(dec);
+		decSet(dec);
 		binSet(dec);
 		updateBinRow(dec);
 	});
@@ -81,6 +97,7 @@ $(function() {
 		var dec = parseInt($(this).val().replace(/[^a-f0-9]/gi,""), 16) || 0;
 		localStorage.lastVal = dec;
 		decSet(dec);
+		octSet(dec);
 		binSet(dec);
 		updateBinRow(dec);
 	});
