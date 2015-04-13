@@ -4,6 +4,15 @@ if(typeof(Storage) === "undefined") {
 
 function updateBinRow(dec) {
 	var str = dec.toString(2);
+	if (str.length > 32) {
+		bitSelect('64b');
+	} else if (str.length > 16) {
+		bitSelect('32b');
+	} else if (str.length > 8) {
+		bitSelect('16b');
+	} else {
+		bitSelect('8b');
+	}
 	for (i = 0; i <= 63; i++) {
 		if (str.length) {
 			$('.bit-' + i).html(str.substring(str.length - 1));
@@ -22,9 +31,6 @@ function updateBinRow(dec) {
 function bitSelect(bits) {
 	$('.bit-64b > div').hide();
 	$('.bit-' + bits + ' > div').show();
-	$('ul.nav li.active').removeClass('active');
-	$('#' + bits).parent('li').addClass('active');
-	localStorage.bitSel = bits;
 }
 
 function hexSet(dec) {
@@ -46,15 +52,6 @@ function binSet(dec) {
 }
 
 $(function() {
-	if (!localStorage.bitSel) {
-		localStorage.bitSel = '32b';
-	}
-	bitSelect(localStorage.bitSel);
-	$('#64b, #32b, #16b, #8b').on('click', function(e) {
-		e.preventDefault();
-		bitSelect($(this).attr('id'));
-	});
-
 	if (localStorage.lastVal && parseInt(localStorage.lastVal, 10)) {
 		val = parseInt(localStorage.lastVal, 10)
 		hexSet(val);
@@ -114,7 +111,7 @@ $(function() {
 		}
 
 		binStr = "";
-		for (i = parseInt(localStorage.bitSel) - 1; i >= 0 ; i--) {
+		for (i = 63; i >= 0 ; i--) {
 			binStr += $('.bit-' + i).html();
 		}
 		var dec = parseInt(binStr, 2);
