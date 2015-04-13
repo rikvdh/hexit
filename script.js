@@ -121,6 +121,7 @@ $(function() {
 		localStorage.lastVal = dec;
 		hexSet(dec);
 		decSet(dec);
+		octSet(dec);
 		binSet(dec);
 	});
 });
