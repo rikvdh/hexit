@@ -84,4 +84,25 @@ $(function() {
 		binSet(dec);
 		updateBinRow(dec);
 	});
+
+	$('.btn-bit').on('click', function(e) {
+		e.preventDefault();
+
+		if ($(this).html() == '1') {
+			$(this).html('0');
+			$(this).removeClass("btn-info");
+		} else {
+			$(this).html('1');
+			$(this).addClass("btn-info");
+		}
+
+		binStr = "";
+		for (i = parseInt(localStorage.bitSel) - 1; i >= 0 ; i--) {
+			binStr += $('.bit-' + i).html();
+		}
+		var dec = parseInt(binStr, 2);
+		hexSet(dec);
+		decSet(dec);
+		binSet(dec);
+	});
 });

@@ -18,3 +18,7 @@ body {
 	padding-right: 0;
 	text-align: center;
 }
+
+.btn-bit:focus, .btn-bit:active, .btn-bit {
+	outline: none;
+}
