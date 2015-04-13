@@ -101,6 +101,7 @@ $(function() {
 			binStr += $('.bit-' + i).html();
 		}
 		var dec = parseInt(binStr, 2);
+		localStorage.lastVal = dec;
 		hexSet(dec);
 		decSet(dec);
 		binSet(dec);
