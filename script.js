@@ -4,14 +4,16 @@ if(typeof(Storage) === "undefined") {
 
 function updateBinRow(dec) {
 	var str = dec.toString(2);
-	if (str.length > 32) {
-		bitSelect('64b');
-	} else if (str.length > 16) {
-		bitSelect('32b');
-	} else if (str.length > 8) {
-		bitSelect('16b');
-	} else {
-		bitSelect('8b');
+	if (localStorage.bitSel == 'autob') {
+		if (str.length > 32) {
+			bitSelect('64b', true);
+		} else if (str.length > 16) {
+			bitSelect('32b', true);
+		} else if (str.length > 8) {
+			bitSelect('16b', true);
+		} else {
+			bitSelect('8b', true);
+		}
 	}
 	for (i = 0; i <= 63; i++) {
 		if (str.length) {
@@ -28,9 +30,21 @@ function updateBinRow(dec) {
 	}
 }
 
-function bitSelect(bits) {
+function bitSelect(bits, auto) {
 	$('.bit-64b > div').hide();
 	$('.bit-' + bits + ' > div').show();
+
+	if (localStorage.bitSel == 'autob' && auto) {
+		$('.bitSelWrap').html('Auto (' + $('#' + bits).html() + ')');
+	} else {
+		$('.bitSelWrap').html($('#' + bits).html());
+		$('ul.dropdown-menu li.active').removeClass('active');
+		$('#' + bits).parent('li').addClass('active');
+		localStorage.bitSel = bits;
+		if (bits == 'autob') {
+			updateBinRow(parseInt($('#decInput').val().replace(/[^0-9]/g,""), 10) || 0);
+		}
+	}
 }
 
 function hexSet(dec) {
@@ -52,6 +66,15 @@ function binSet(dec) {
 }
 
 $(function() {
+	if (!localStorage.bitSel) {
+		localStorage.bitSel = 'autob';
+	}
+	bitSelect(localStorage.bitSel, false);
+	$('#64b, #32b, #16b, #8b, #autob').on('click', function(e) {
+		e.preventDefault();
+		bitSelect($(this).attr('id'), false);
+	});
+
 	if (localStorage.lastVal && parseInt(localStorage.lastVal, 10)) {
 		val = parseInt(localStorage.lastVal, 10)
 		hexSet(val);
