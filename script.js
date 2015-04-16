@@ -65,6 +65,14 @@ function binSet(bignum) {
 	$('.1-count').html((bin.match(/1/g) || []).length);
 }
 
+function allSet(bignum) {
+	hexSet(bignum);
+	octSet(bignum);
+	decSet(bignum);
+	binSet(bignum);
+	updateBinRow(bignum);
+}
+
 $(function() {
 	if (!localStorage.bitSel) {
 		localStorage.bitSel = 'autob';
@@ -76,19 +84,14 @@ $(function() {
 	});
 
 	if (localStorage.lastVal) {
-		val = bigInt(localStorage.lastVal);
-		hexSet(val);
-		decSet(val);
-		octSet(val);
-		binSet(val);
-		updateBinRow(val);
+		allSet(bigInt(localStorage.lastVal));
 	}
 
 	$('#binInput').on('keyup', function() {
 		var bin = $(this).val().replace(/[^01]/g,"");
 		var dec = bigInt(bin, 2);
 		$('.1-count').html((bin.match(/1/g) || []).length);
-		localStorage.lastVal = dec;
+		localStorage.lastVal = dec.toString();
 		hexSet(dec);
 		decSet(dec);
 		octSet(dec);
@@ -97,7 +100,7 @@ $(function() {
 
 	$('#decInput').on('keyup', function() {
 		var dec = bigInt($(this).val().replace(/[^0-9]/g,""));
-		localStorage.lastVal = dec;
+		localStorage.lastVal = dec.toString();
 		hexSet(dec);
 		octSet(dec);
 		binSet(dec);
@@ -106,7 +109,7 @@ $(function() {
 
 	$('#octInput').on('keyup', function() {
 		var dec = bigInt($(this).val().replace(/[^0-7]/g,""), 8);
-		localStorage.lastVal = dec;
+		localStorage.lastVal = dec.toString();
 		hexSet(dec);
 		decSet(dec);
 		binSet(dec);
@@ -115,7 +118,7 @@ $(function() {
 
 	$('#hexInput').on('keyup', function() {
 		var dec = bigInt($(this).val().replace(/[^a-f0-9]/gi,""), 16);
-		localStorage.lastVal = dec;
+		localStorage.lastVal = dec.toString();
 		decSet(dec);
 		octSet(dec);
 		binSet(dec);
@@ -138,43 +141,46 @@ $(function() {
 			binStr += $('.bit-' + i).html();
 		}
 		var dec = bigInt(binStr, 2);
-		localStorage.lastVal = dec;
-		hexSet(dec);
-		decSet(dec);
-		octSet(dec);
-		binSet(dec);
+		localStorage.lastVal = dec.toString();
+		allSet(dec);
 	});
 
 	$('.btn-oper-all-one').on('click', function(e) {
 		dec = bigInt("FFFFFFFFFFFFFFFF", 16);
 		localStorage.lastVal = dec.toString();
-		hexSet(dec);
-		decSet(dec);
-		octSet(dec);
-		binSet(dec);
-		updateBinRow(dec);
+		allSet(dec);
 	});
 
 	$('.btn-oper-all-zero').on('click', function(e) {
 		var dec = bigInt("0");
 		localStorage.lastVal = dec.toString();
-		hexSet(dec);
-		decSet(dec);
-		octSet(dec);
-		binSet(dec);
-		updateBinRow(dec);
+		allSet(dec);
 	});
 
 	$('.btn-oper-invert').on('click', function(e) {
 		var dec = bigInt(localStorage.lastVal).xor(bigInt("FFFFFFFFFFFFFFFF", 16));
 		localStorage.lastVal = dec.toString();
-		hexSet(dec);
-		decSet(dec);
-		octSet(dec);
-		binSet(dec);
-		updateBinRow(dec);
+		allSet(dec);
 	});
 
+	$('.btn-oper-shift-left').on('click', function (e) {
+		var dec = bigInt(localStorage.lastVal).shiftLeft(1);
+		localStorage.lastVal = dec.toString();
+		allSet(dec);
+	});
 
+	$('.btn-oper-shift-right').on('click', function (e) {
+		var dec = bigInt(localStorage.lastVal).shiftRight(1);
+		localStorage.lastVal = dec.toString();
+		allSet(dec);
+	});
+
+	$('.btn-oper-reverse').on('click', function (e) {
+		var bitVal = bigInt(localStorage.lastVal).toString(2);
+		bitVal = (bitVal.split("").reverse().join("") + "0000000000000000000000000000000000000000000000000000000000000000").substring(0,64);
+		var dec = bigInt(bitVal, 2);
+		localStorage.lastVal = dec.toString();
+		allSet(dec);
+	});
 
 });
