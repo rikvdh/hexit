@@ -144,4 +144,37 @@ $(function() {
 		octSet(dec);
 		binSet(dec);
 	});
+
+	$('.btn-oper-all-one').on('click', function(e) {
+		var dec = parseInt("FFFFFFFFFFFFF", 16);
+		localStorage.lastVal = dec;
+		hexSet(dec);
+		decSet(dec);
+		octSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
+	});
+
+	$('.btn-oper-all-zero').on('click', function(e) {
+		var dec = parseInt("000000000000", 16);
+		localStorage.lastVal = dec;
+		hexSet(dec);
+		decSet(dec);
+		octSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
+	});
+
+	$('.btn-oper-invert').on('click', function(e) {
+		var dec = localStorage.lastVal;
+		dec = dec ^ parseInt("FFFFFFFFFFFFF", 16);
+		hexSet(dec);
+		decSet(dec);
+		octSet(dec);
+		binSet(dec);
+		updateBinRow(dec);
+	});
+
+
+
 });

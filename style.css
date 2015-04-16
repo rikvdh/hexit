@@ -12,6 +12,9 @@ body {
 	width:12.5%;
 }
 
+.row-bottom-padding-5 { padding-bottom: 5px; }
+.row-bottom-padding-10 { padding-bottom: 10px; }
+
 .btn-bit {
 	width: 100%;
 	padding-left: 0;
