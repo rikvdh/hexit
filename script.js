@@ -42,7 +42,7 @@ function bitSelect(bits, auto) {
 		$('#' + bits).parent('li').addClass('active');
 		localStorage.bitSel = bits;
 		if (bits == 'autob') {
-			updateBinRow(parseInt($('#decInput').val().replace(/[^0-9]/g,""), 10) || 0);
+			updateBinRow(bigInt($('#decInput').val().replace(/[^0-9]/g,"")) || 0);
 		}
 	}
 }
@@ -52,11 +52,11 @@ function hexSet(dec) {
 }
 
 function octSet(dec) {
-	$('#octInput').val(dec.toString(8).toUpperCase());
+	$('#octInput').val(dec.toString(8));
 }
 
 function decSet(dec) {
-	$('#decInput').val(dec);
+	$('#decInput').val(dec.toString());
 }
 
 function binSet(dec) {
@@ -77,11 +77,11 @@ $(function() {
 
 	if (localStorage.lastVal && parseInt(localStorage.lastVal, 10)) {
 		val = parseInt(localStorage.lastVal, 10)
-		hexSet(val);
-		decSet(val);
-		octSet(val);
-		binSet(val);
-		updateBinRow(val);
+		hexSet(bigInt(val));
+		decSet(bigInt(val));
+		octSet(bigInt(val));
+		binSet(bigInt(val));
+		updateBinRow(bigInt(val));
 	}
 
 	$('#binInput').on('keyup', function() {
@@ -96,7 +96,7 @@ $(function() {
 	});
 
 	$('#decInput').on('keyup', function() {
-		var dec = parseInt($(this).val().replace(/[^0-9]/g,""), 10) || 0;
+		var dec = bigInt($(this).val().replace(/[^0-9]/g,"")) || 0;
 		localStorage.lastVal = dec;
 		hexSet(dec);
 		octSet(dec);
@@ -146,8 +146,8 @@ $(function() {
 	});
 
 	$('.btn-oper-all-one').on('click', function(e) {
-		var dec = parseInt("FFFFFFFFFFFFF", 16);
-		localStorage.lastVal = dec;
+		dec = bigInt("2").pow(64).subtract(1);
+		localStorage.lastVal = dec.toString();
 		hexSet(dec);
 		decSet(dec);
 		octSet(dec);
