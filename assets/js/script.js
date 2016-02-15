@@ -145,6 +145,23 @@ $(function() {
 		allSet(dec);
 	});
 
+	$('.btn-bit-grouping').on('click', function(e) {
+		var cfg = $.parseJSON($('#bit-grouping-cfg').val());
+		for (group in cfg) {
+			var name      = cfg[group]['name'];
+			var bitGroups = cfg[group]['bit'].split(cfg[group]['bit'], ";");
+			var color     = cfg[group]['color'];
+
+			for (g = 0; g <= bitGroups.length; g++) {
+				b = cfg[group]['bit'].split("-");
+				for (bit = b[0]; bit <= b[1]; bit++) {
+					$('.bit-' + bit + '-hdr').text(name);
+					$('.bit-' + bit + '-hdr').css("background-color", color);
+				}
+			}
+		}
+	});
+
 	$('.btn-oper-all-one').on('click', function(e) {
 		dec = bigInt("FFFFFFFFFFFFFFFF", 16);
 		localStorage.lastVal = dec.toString();
