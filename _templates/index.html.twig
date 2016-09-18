@@ -8,7 +8,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="Rik van der Heijden">
 		<title>Dionysus</title>
-		{{ stylesheet('assets/css/bootstrap.bin.css') }}
+		{{ stylesheet('assets/css/bootstrap.min.css') }}
 		{{ stylesheet('assets/css/style.css') }}
 		{{ stylesheets() }}
 
@@ -94,38 +94,12 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-3 bit-64b">
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-63-hdr" disabled="disabled">63</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-63">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-62-hdr" disabled="disabled">62</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-62">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-61-hdr" disabled="disabled">61</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-61">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-60-hdr" disabled="disabled">60</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-60">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-59-hdr" disabled="disabled">59</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-59">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-58-hdr" disabled="disabled">58</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-58">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-57-hdr" disabled="disabled">57</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-57">0</button><br />
-					</div>
-					<div class="col-xs-1-8">
-						<button type="button" class="btn-bit btn btn-default bit-56-hdr" disabled="disabled">56</button><br />
-						<button type="button" class="btn-bit btn btn-default bit-56">0</button><br />
-					</div>
+					{% for i in 63..56 %}
+						<div class="col-xs-1-8">
+							<button type="button" class="btn-bit btn btn-default bit-{{ i }}-hdr" disabled="disabled">{{ i }}</button><br />
+							<button type="button" class="btn-bit btn btn-default bit-{{ i }}">0</button><br />
+						</div>
+					{% endfor %}
 				</div>
 				<div class="col-sm-3 bit-64b">
 					<div class="col-xs-1-8">

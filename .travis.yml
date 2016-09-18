@@ -1,6 +1,6 @@
-language: generic # don't install any environment
+language: php
 
-script: bash ./deploy.sh
+script: ./.travis.sh
 env:
   global:
   - ENCRYPTION_LABEL: "d92f6b6c2c8a"

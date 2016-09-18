@@ -4,7 +4,9 @@ set -e
 
 mkdir -p out
 
-composer update
+rm -f composer.lock
+
+composer install
 ./bin/genry generate
 
 cp -r assets out/assets
