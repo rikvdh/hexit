@@ -1,5 +1,5 @@
 cache_dir: .cache
 templates_dir: _templates
-web_dir: .
+web_dir: out
 
 modules:
