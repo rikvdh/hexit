@@ -8,6 +8,7 @@ rm -f composer.lock
 
 composer install
 
+rm -rf out/assets
 cp -r assets out/assets
 ./bin/genry generate
 
